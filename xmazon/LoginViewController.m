@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "CreateUserViewController.h"
 
 @interface LoginViewController ()
 
@@ -16,12 +17,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    self.title = @"Login";
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)onTouchConnexion:(id)sender {
+    NSLog(@"Connexion");
+    //Tentative de connexion avec username et password
+    //Si successful -> stockage identifiants et envoi vers page d'accueil
+}
+
+- (IBAction)onTouchCreate:(id)sender {
+    CreateUserViewController* c = [CreateUserViewController new];
+    
+    [self.navigationController pushViewController:c animated:YES];
 }
 
 /*
