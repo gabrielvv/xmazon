@@ -7,7 +7,9 @@
 //
 
 #import "CreateUserViewController.h"
+#import "StoreViewController.h"
 #import "myOAuthManager.h"
+#import "GVUser.h"
 
 @interface CreateUserViewController () <UITextFieldDelegate>
 
@@ -20,6 +22,8 @@
     self.userName.autocorrectionType = UITextAutocorrectionTypeNo;
     self.firstName.autocorrectionType = UITextAutocorrectionTypeNo;
     self.lastName.autocorrectionType = UITextAutocorrectionTypeNo;
+    myOAuthManager* sharedManager = [myOAuthManager sharedManager];
+    [sharedManager getStoreList];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -37,69 +41,51 @@
 //    NSLog(@"create");
 //    NSLog(@"username :%@", self.userName.text);
     NSLog(@"Comparison result: %ld", (long)[self.userName.text compare:@""]);
-//    
-//    if(NSOrderedSame == [self.userName.text compare:@""]){
-//        NSLog(@"userName undefined");
-//        self.userNameLabel.hidden = NO;
-//        self.passOne.hidden = NO;
-//        self.passTwo.hidden = NO;
-//        return;
-//    }
-//    
-//    if(NSOrderedSame == [self.passOne.text compare:@""]){
-//        NSLog(@"password1 undefined");
-//        self.passOne.hidden = NO;
-//        self.passTwo.hidden = NO;
-//        return;
-//    }
-//    
-//    if(NSOrderedSame == [self.passTwo.text compare:@""]){
-//        NSLog(@"password2 undefined");
-//        self.passTwo.hidden = NO;
-//        return;
-//    }
-//    
-//    if(NSOrderedSame != [self.passTwo.text compare:self.passOne.text]){
-//        self.passTwo.hidden = NO;
-//        self.passOne.text = @"";
-//        self.passTwo.text = @"";
-//        return;
-//    }
     
-//    NSURLSession* session = [NSURLSession sharedSession];
-//    
-//    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString:@"http://xmazon.appspaces.fr/oauth/token"]];
-//    
-//    request.HTTPMethod = @"POST";
-//    
-//    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
-//    NSDictionary* clientCred = [userDefaults objectForKey:@"clientCredentials"];
-//    
-//    NSString* clientId = [clientCred objectForKey:@"client_id"];
-//    NSString* clientSecret = [clientCred objectForKey:@"client_secret"];
-//    
-//    
-//    NSString* body = [[NSString alloc] initWithFormat:@"grant_type=client_credentials&client_id=%@&client_secret=%@", clientId, clientSecret];
-//    
-//    request.HTTPBody = [body dataUsingEncoding:NSUTF8StringEncoding];
-//    
-//    NSMutableDictionary* headers = [request.allHTTPHeaderFields mutableCopy];
-//    
-////    [headers setObject:@"Bearer XXXX" forKey:@"Authorization"];
-//    request.allHTTPHeaderFields = headers;
-//    
-//    [[session dataTaskWithRequest:request completionHandler:^
-//      (NSData * data, NSURLResponse * response, NSError* error){
-//          if(!error){
-////              NSLog(@"Response : %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-//              
-//          }else{
-//              NSLog(@"%@", error);
-//          }
-//      }] resume];
+    if(NSOrderedSame == [self.userName.text compare:@""]){
+        NSLog(@"userName undefined");
+        self.userNameLabel.hidden = NO;
+        self.passOne.hidden = NO;
+        self.passTwo.hidden = NO;
+        return;
+    }
+    
+    if(NSOrderedSame == [self.passOne.text compare:@""]){
+        NSLog(@"password1 undefined");
+        self.passOne.hidden = NO;
+        self.passTwo.hidden = NO;
+        return;
+    }
+    
+    if(NSOrderedSame == [self.passTwo.text compare:@""]){
+        NSLog(@"password2 undefined");
+        self.passTwo.hidden = NO;
+        return;
+    }
+    
+    if(NSOrderedSame != [self.passTwo.text compare:self.passOne.text]){
+        self.passTwo.hidden = NO;
+        self.passOne.text = @"";
+        self.passTwo.text = @"";
+        return;
+    }
+    
+    void (^myBlock)(NSDictionary*) = ^(NSDictionary* response){
+        GVUser* user = [GVUser sharedUser];
+        //Temporaire: Test si l'opération a réussie -> ce n'est pas là qu'il faudrait le faire
+        if([user.username isEqualToString:self.userName.text] && [user.password isEqualToString:self.passOne.text]){
+            StoreViewController* store = [StoreViewController new];
+            [self.navigationController pushViewController:store animated:YES];
+        }else{
+            //Message d'erreur
+        }
+    };
     
     myOAuthManager* sharedManager = [myOAuthManager sharedManager];
-    [sharedManager getCategoryList];
+    [sharedManager authSubscribeWithMail:self.userName.text andPassword:self.passOne.text callback:myBlock];
+    
+    
+
 }// fin onTouchCreate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

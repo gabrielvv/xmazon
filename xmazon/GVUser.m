@@ -30,8 +30,15 @@
     self = [super init];
     if(self){
         NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
-        GVUser* user = [userDefaults objectForKey:@"user"];
-        if(user) self = user;
+        NSDictionary* user = [userDefaults objectForKey:@"user"];
+        if(user){
+            self.uid = [user objectForKey:@"uid"];
+            self.email = [user objectForKey:@"email"];
+            self.password = [user objectForKey:@"password"];
+            self.firstname = [user objectForKey:@"firstname"];
+            self.lastname = [user objectForKey:@"lastname"];
+            self.username = [user objectForKey:@"username"];
+        }
     }
     return self;
 }
