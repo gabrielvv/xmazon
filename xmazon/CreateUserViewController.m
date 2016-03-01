@@ -19,11 +19,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"Create account";
     self.userName.autocorrectionType = UITextAutocorrectionTypeNo;
     self.firstName.autocorrectionType = UITextAutocorrectionTypeNo;
     self.lastName.autocorrectionType = UITextAutocorrectionTypeNo;
-    myOAuthManager* sharedManager = [myOAuthManager sharedManager];
-    [sharedManager getStoreList];
+//    myOAuthManager* sharedManager = [myOAuthManager sharedManager];
+//    [sharedManager getStoreList];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -70,15 +71,21 @@
         return;
     }
     
+    GVUser* user = [GVUser sharedUser];
+
     void (^myBlock)(NSDictionary*) = ^(NSDictionary* response){
-        GVUser* user = [GVUser sharedUser];
+        user.password = self.passOne.text;
+        [user storeProperties];
         //Temporaire: Test si l'opération a réussie -> ce n'est pas là qu'il faudrait le faire
         if([user.username isEqualToString:self.userName.text] && [user.password isEqualToString:self.passOne.text]){
-            StoreViewController* store = [StoreViewController new];
-            [self.navigationController pushViewController:store animated:YES];
+//            StoreViewController* store = [StoreViewController new];
+//            [self.navigationController pushViewController:store animated:YES];
         }else{
             //Message d'erreur
         }
+        StoreViewController* store = [StoreViewController new];
+//        [self.rootViewController pushViewController:store animated:YES];
+
     };
     
     myOAuthManager* sharedManager = [myOAuthManager sharedManager];

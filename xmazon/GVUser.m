@@ -43,13 +43,30 @@
     return self;
 }
 
-- (void) updateProperties:(NSDictionary*) dict{
+- (void) updateProperties:(NSDictionary*) dict andStore:(BOOL)store{
+    NSLog(@"updateAndStore %@", dict);
     self.uid = [dict objectForKey:@"uid"];
     self.username = [dict objectForKey:@"username"];
     self.email = [dict objectForKey:@"email"];
-    self.lastname = [dict objectForKey:@"lastname"];
-    self.firstname = [dict objectForKey:@"firstname"];
-    self.password = [dict objectForKey:@"password"];
+//    self.firstname = [dict objectForKey:@"firstname"] ? [dict objectForKey:@"firstname"] : @""; //le test ne marche pas on récupère "<null>"
+//    self.lastname = [dict objectForKey:@"lastname"] ? [dict objectForKey:@"lastname"] : @""; //le test ne marche pas on récupère "<null>"
+    self.firstname = @"";
+    self.lastname = @"";
+
+    //Le password n'est pas renvoyé avec auth/subscribe!!
+    self.password = [dict objectForKey:@"password"] ? [dict objectForKey:@"password"] : @"";
+    if(store)[self storeProperties];
+}
+
+- (NSDictionary*) getPropertiesDict{
+    return @{@"uid": self.uid, @"password": self.password, @"username": self.username, @"lastname": self.lastname, @"email": self.email, @"firstname":self.firstname};
+}
+
+- (void) storeProperties{
+    NSLog(@"storeProperties %@", [self getPropertiesDict]);
+    //On stocke les valeurs dans la mémoire
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[self getPropertiesDict] forKey:@"user"];
 }
 
 @end

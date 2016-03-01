@@ -7,6 +7,10 @@
 //
 
 #import "TabBarViewController.h"
+#import "LoginViewController.h"
+#import "StoreViewController.h"
+#import "SearchViewController.h"
+#import "CartViewController.h"
 
 @interface TabBarViewController ()
 
@@ -16,7 +20,37 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    /**********************************************************************************************************************************/
+    
+    //Initialisation FirstController
+//    UINavigationController* loginNavCtrl = [[UINavigationController alloc] initWithRootViewController:[LoginViewController new]];
+    
+    /**********************************************************************************************************************************/
+    
+    //Initialisation SecondController
+    UINavigationController* storeNavCtrl = [[UINavigationController alloc] initWithRootViewController:[StoreViewController new]];
+    
+    //    UITabBarItem* tabItem2 = [[UITabBarItem alloc] initWithTitle:@"haha" image: tabItem.image tag: 1];
+    
+    UITabBarItem* tabItem2 = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostViewed tag: 1];
+    
+    storeNavCtrl.tabBarItem = tabItem2;
+    
+    /*******************************************/
+    
+//    //Initialisation ThirdController
+//    UINavigationController* secondNavCtrl = [[UINavigationController alloc] initWithRootViewController:[SecondListViewController new]];
+//
+//    //    UITabBarItem* tabItem2 = [[UITabBarItem alloc] initWithTitle:@"haha" image: tabItem.image tag: 1];
+//
+//    UITabBarItem* tabItem2 = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostViewed tag: 1];
+//
+//    secondNavCtrl.tabBarItem = tabItem2;
+    
+    /*****************************************/
+    
+    [self setViewControllers:@[storeNavCtrl] animated:NO];
+
 }
 
 - (void)didReceiveMemoryWarning {

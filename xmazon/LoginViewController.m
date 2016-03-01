@@ -8,6 +8,11 @@
 
 #import "LoginViewController.h"
 #import "CreateUserViewController.h"
+#import "StoreViewController.h"
+#import "myOAuthManager.h"
+#import "GVUser.h"
+#import "TabBarViewController.h"
+#import "AppDelegate.h"
 
 @interface LoginViewController ()
 
@@ -18,7 +23,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Login";
-    
+
+    GVUser* user = [GVUser sharedUser];
+    self.userNameField.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.userNameField.text = user.email;
+    self.passField.autocorrectionType = UITextAutocorrectionTypeNo;
+    [[myOAuthManager sharedManager] getAndSetOAuthTokenForApp:false successCallback:nil];
     
 }
 
@@ -30,7 +40,36 @@
 - (IBAction)onTouchConnexion:(id)sender {
     NSLog(@"Connexion");
     //Tentative de connexion avec username et password
-    //Si successful -> stockage identifiants et envoi vers page d'accueil
+    //Si successful -> stockage identifiants, chargement de la page d'accueil et requête pour obtenir les stores
+    void (^myBlock)() = ^(){
+        
+
+        TabBarViewController* tabBar = [TabBarViewController new];
+        
+//        UIWindow* w =[[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//        [w makeKeyAndVisible];
+        UINavigationController* navCtrl = [[UINavigationController alloc] initWithRootViewController:tabBar];
+
+        [navCtrl setNavigationBarHidden:true];
+//        w.rootViewController = [[UINavigationController alloc] initWithRootViewController:tabBar];
+//        app.window = w;
+        AppDelegate *app = [[UIApplication sharedApplication] delegate];
+        [app.window makeKeyAndVisible];
+        app.window.rootViewController = navCtrl;
+        
+        StoreViewController* storeCtrl = [[[tabBar viewControllers] objectAtIndex:0] topViewController];
+
+        void (^sc)(NSDictionary*) = ^(NSDictionary* response){
+            storeCtrl.stores = [response objectForKey:@"result"];
+            [storeCtrl.storeTableView reloadData];
+        };
+        
+        [tabBar setSelectedIndex:1];
+        
+        [[myOAuthManager sharedManager] getStoreListWithSuccessCallback: sc];
+    };
+    
+    [[myOAuthManager sharedManager] getAndSetOAuthTokenForUser:false username:self.userNameField.text password:self.passField.text successCallback:myBlock];
 }
 
 - (IBAction)onTouchCreate:(id)sender {

@@ -25,5 +25,7 @@
 @property(nonatomic, strong) NSString* firstname;
 
 +(id)sharedUser;
--(void) updateProperties:(NSDictionary*) dict;
+-(void) updateProperties:(NSDictionary*) dict andStore:(BOOL)store;
+- (NSDictionary*) getPropertiesDict;
+- (void) storeProperties;
 @end
