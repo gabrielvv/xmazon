@@ -15,15 +15,13 @@
 @implementation ProductViewController
 
 @synthesize products = products_;
+@synthesize storeLabel = storeLabel_;
+@synthesize catLabel = catLabel_;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Products";
-    
-    //Création du bouton Deconnexion
-    UIBarButtonItem* deconnectButton = [[UIBarButtonItem alloc] initWithTitle:@"Deconnexion" style:UIBarButtonItemStylePlain target:self action:@selector(onTouchDeconnectButton)];
-    
-    self.navigationItem.rightBarButtonItems = @[deconnectButton];
+    self.storeName.text = [[NSString alloc] initWithFormat:@"%@ - %@", self.storeLabel, self.catLabel];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,28 +29,17 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void) onTouchDeconnectButton{
-    NSLog(@"Touch deconnect");
-    
-}
-
 static  NSString* const kCellReuseIdentifier = @"CoolId";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier];
     if(!cell){
-        NSLog(@"CREATE Cell");
-        cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:kCellReuseIdentifier];
-        //        cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier:kCellReuseIdentifier];
-        //tester UITableViewCellStyleValue1 et autres styles
-    }/*else{
-      NSLog(@"REUSE Cell");
-      }*/
+        cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier:kCellReuseIdentifier];
+    }
     NSDictionary* product = [products_ objectAtIndex:indexPath.row];
-    //    cell.textLabel.text = [NSString stringWithFormat:@"Row %lu", indexPath.row];
     cell.textLabel.text = [product objectForKey:@"name"];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Price: %@ €", [product objectForKey:@"price"]];
     
-    //    cell.detailTextLabel.text = @"super trop bien"; //pour UITableViewCellStyleSubtitle/Value1...
     return cell;
 }
 

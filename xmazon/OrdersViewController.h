@@ -9,4 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface OrdersViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *username;
+@property (weak, nonatomic) IBOutlet UILabel *email;
+@property (weak, nonatomic) IBOutlet UILabel *lastname;
+@property (weak, nonatomic) IBOutlet UILabel *firstname;
 @end

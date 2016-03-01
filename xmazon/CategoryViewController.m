@@ -17,15 +17,12 @@
 @implementation CategoryViewController
 
 @synthesize categories = categories_;
+@synthesize storeLabel = storeLabel_;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Category";
-    
-    //Création du bouton Deconnexion
-    UIBarButtonItem* deconnectButton = [[UIBarButtonItem alloc] initWithTitle:@"Deconnexion" style:UIBarButtonItemStylePlain target:self action:@selector(onTouchDeconnectButton)];
-    
-    self.navigationItem.rightBarButtonItems = @[deconnectButton];
+    self.storeName.text = self.storeLabel;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,19 +30,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void) onTouchDeconnectButton{
-    NSLog(@"Touch deconnect");
-    
-}
-
 static  NSString* const kCellReuseIdentifier = @"CoolId";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier];
     if(!cell){
-        NSLog(@"CREATE Cell");
         cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:kCellReuseIdentifier];
-        //        cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier:kCellReuseIdentifier];
+    
         //tester UITableViewCellStyleValue1 et autres styles
     }/*else{
       NSLog(@"REUSE Cell");
@@ -72,6 +63,10 @@ static  NSString* const kCellReuseIdentifier = @"CoolId";
         [productCtrl.productTableView reloadData];
     };
 
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    productCtrl.catLabel = cell.textLabel.text;
+    productCtrl.storeLabel = self.storeLabel;
+    NSLog(@"didSelectRow %@ - %@", productCtrl.catLabel, productCtrl.storeLabel);
     [[myOAuthManager sharedManager] getProductListForCat:[category objectForKey:@"uid"] search:nil limit:nil offset:nil successCallback:sc];
     
     [self.navigationController pushViewController:productCtrl animated:YES];

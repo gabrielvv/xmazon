@@ -18,5 +18,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *passTwo;
 @property (weak, nonatomic) IBOutlet UITextField *firstName;
 @property (weak, nonatomic) IBOutlet UITextField *lastName;
+@property (weak, nonatomic) IBOutlet UILabel *errorMessage;
 
 @end

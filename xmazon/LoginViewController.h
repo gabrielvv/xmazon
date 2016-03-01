@@ -18,4 +18,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *createUserButton;
 
+@property (weak, nonatomic) IBOutlet UILabel *errorMessage;
+
 @end

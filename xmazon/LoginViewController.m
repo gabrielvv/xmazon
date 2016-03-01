@@ -23,12 +23,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Login";
-
+    self.errorMessage.hidden = YES;
     GVUser* user = [GVUser sharedUser];
     self.userNameField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.userNameField.text = user.email;
     self.passField.autocorrectionType = UITextAutocorrectionTypeNo;
-    [[myOAuthManager sharedManager] getAndSetOAuthTokenForApp:false successCallback:nil];
     
 }
 
@@ -42,7 +41,6 @@
     //Tentative de connexion avec username et password
     //Si successful -> stockage identifiants, chargement de la page d'accueil et requête pour obtenir les stores
     void (^myBlock)() = ^(){
-        
 
         TabBarViewController* tabBar = [TabBarViewController new];
         
@@ -57,19 +55,24 @@
         [app.window makeKeyAndVisible];
         app.window.rootViewController = navCtrl;
         
-        StoreViewController* storeCtrl = [[[tabBar viewControllers] objectAtIndex:0] topViewController];
+        StoreViewController* storeCtrl = (StoreViewController*)[[[tabBar viewControllers] objectAtIndex:0] topViewController];
 
         void (^sc)(NSDictionary*) = ^(NSDictionary* response){
             storeCtrl.stores = [response objectForKey:@"result"];
+            [[NSUserDefaults standardUserDefaults] setObject:storeCtrl.stores forKey:@"stores"];
             [storeCtrl.storeTableView reloadData];
         };
         
-        [tabBar setSelectedIndex:1];
+        [tabBar setSelectedIndex:0];
         
-        [[myOAuthManager sharedManager] getStoreListWithSuccessCallback: sc];
+        [[myOAuthManager sharedManager] getStoreListWithSuccessCallback:sc errorCallback: nil];
     };
     
-    [[myOAuthManager sharedManager] getAndSetOAuthTokenForUser:false username:self.userNameField.text password:self.passField.text successCallback:myBlock];
+    void (^ec)() = ^(){
+        self.errorMessage.hidden = NO;
+    };
+    
+    [[myOAuthManager sharedManager] getAndSetOAuthTokenForUser:false username:self.userNameField.text password:self.passField.text successCallback:myBlock errorCallback:ec];
 }
 
 - (IBAction)onTouchCreate:(id)sender {

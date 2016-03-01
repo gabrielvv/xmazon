@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CategoryViewController">
             <connections>
                 <outlet property="categoryTableView" destination="1Sq-jm-X2d" id="ghU-BX-g4P"/>
+                <outlet property="storeName" destination="MvA-LY-Gqr" id="Oo7-J0-fDF"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="vYY-U8-VQh"/>
             </connections>
         </placeholder>
@@ -21,6 +22,14 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Store" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MvA-LY-Gqr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="21"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <animations/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Vr4-lL-875"/>
                         <outlet property="delegate" destination="-1" id="MH5-6A-iMH"/>
@@ -29,7 +38,7 @@
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <point key="canvasLocation" x="436" y="286"/>
+            <point key="canvasLocation" x="428" y="256"/>
         </view>
     </objects>
 </document>

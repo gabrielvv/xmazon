@@ -10,6 +10,8 @@
 #import "LoginViewController.h"
 #import "TabBarViewController.h"
 #import "StoreViewController.h"
+#import "GVuser.h"
+#import "myOAuthManager.h"
 
 @interface AppDelegate ()
 
@@ -22,27 +24,35 @@
     
     UIWindow* w =[[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    w.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginViewController new]];
-//    UITabBarController* tab = [TabBarViewController new];
-//    UINavigationController* navCtrl = [[UINavigationController alloc] initWithRootViewController:tab];
-//    [navCtrl setNavigationBarHidden:true];
-//    w.rootViewController = navCtrl;
-    
-//    NSLog(@"%@", [[[[tab viewControllers] objectAtIndex:1] rootViewController] windows]);
+    GVUser* user = [GVUser sharedUser];
+    if([user.username isEqualToString:@""] || [user.password isEqualToString:@""]){
+        NSLog(@"user undefined");
+        //Il n'y a pas de user identifié: on charge la page de connexion
+        w.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginViewController new]];
+    }else{
+        NSLog(@"user defined");
+        //user identifié: on charge la page d'accueil
+        UITabBarController* tab = [TabBarViewController new];
+        UINavigationController* navCtrl = [[UINavigationController alloc] initWithRootViewController:tab];
+        
+        //Chargement des données : stores
+        StoreViewController* storeCtrl = (StoreViewController*)[[[tab viewControllers] objectAtIndex:0] topViewController];
+        
+        storeCtrl.stores = [[NSUserDefaults standardUserDefaults] objectForKey:@"stores"];
+        
+        void (^sc)(NSDictionary*) = ^(NSDictionary* response){
+            storeCtrl.stores = [response objectForKey:@"result"];
+            [storeCtrl.storeTableView reloadData];
+        };
+        
+        [[myOAuthManager sharedManager] getStoreListWithSuccessCallback: sc errorCallback:nil];
+        
+        [navCtrl setNavigationBarHidden:true];
+        w.rootViewController = navCtrl;
+    }
+
     [w makeKeyAndVisible];
-    
     self.window = w;
-    
-    //Stockage de données
-//    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
-//    NSDictionary* dict = @{
-//                           @"client_id": @"7ca51914-8590-4069-af62-f657887c4dc0",
-//                           @"client_secret": @"a8e2713d651840870e9d18d6cd4ebc5ebe03ca08"
-//                           };
-//    NSString* clientCred = [userDefaults objectForKey:@"clientCredentials"];
-//    if(!clientCred){
-//        [userDefaults setObject:dict forKey:@"clientCredentials"];
-//    }
 
     return YES;
 }

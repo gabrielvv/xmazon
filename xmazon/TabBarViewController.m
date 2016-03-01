@@ -11,6 +11,7 @@
 #import "StoreViewController.h"
 #import "SearchViewController.h"
 #import "CartViewController.h"
+#import "OrdersViewController.h"
 
 @interface TabBarViewController ()
 
@@ -22,34 +23,27 @@
     [super viewDidLoad];
     /**********************************************************************************************************************************/
     
-    //Initialisation FirstController
-//    UINavigationController* loginNavCtrl = [[UINavigationController alloc] initWithRootViewController:[LoginViewController new]];
-    
-    /**********************************************************************************************************************************/
-    
-    //Initialisation SecondController
     UINavigationController* storeNavCtrl = [[UINavigationController alloc] initWithRootViewController:[StoreViewController new]];
-    
-    //    UITabBarItem* tabItem2 = [[UITabBarItem alloc] initWithTitle:@"haha" image: tabItem.image tag: 1];
-    
-    UITabBarItem* tabItem2 = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostViewed tag: 1];
-    
-    storeNavCtrl.tabBarItem = tabItem2;
+    storeNavCtrl.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostViewed tag: 1];
     
     /*******************************************/
     
-//    //Initialisation ThirdController
-//    UINavigationController* secondNavCtrl = [[UINavigationController alloc] initWithRootViewController:[SecondListViewController new]];
-//
-//    //    UITabBarItem* tabItem2 = [[UITabBarItem alloc] initWithTitle:@"haha" image: tabItem.image tag: 1];
-//
-//    UITabBarItem* tabItem2 = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostViewed tag: 1];
-//
-//    secondNavCtrl.tabBarItem = tabItem2;
+    UINavigationController* searchNavCtrl = [[UINavigationController alloc] initWithRootViewController:[SearchViewController new]];
+    searchNavCtrl.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag: 2];
+
+    /*****************************************/
+    
+    UINavigationController* cartNavCtrl = [[UINavigationController alloc] initWithRootViewController:[CartViewController new]];
+    cartNavCtrl.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemDownloads tag: 3];
     
     /*****************************************/
     
-    [self setViewControllers:@[storeNavCtrl] animated:NO];
+    UINavigationController* userNavCtrl = [[UINavigationController alloc] initWithRootViewController:[OrdersViewController new]];
+    userNavCtrl.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts tag: 4];
+    
+    /*****************************************/
+    
+    [self setViewControllers:@[storeNavCtrl, searchNavCtrl, cartNavCtrl, userNavCtrl] animated:NO];
 
 }
 

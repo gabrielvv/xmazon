@@ -38,6 +38,13 @@
             self.firstname = [user objectForKey:@"firstname"];
             self.lastname = [user objectForKey:@"lastname"];
             self.username = [user objectForKey:@"username"];
+        }else{
+            self.uid = @"";
+            self.email = @"";
+            self.password = @"";
+            self.firstname = @"";
+            self.lastname = @"";
+            self.username = @"";
         }
     }
     return self;
@@ -65,6 +72,17 @@
 - (void) storeProperties{
     NSLog(@"storeProperties %@", [self getPropertiesDict]);
     //On stocke les valeurs dans la mémoire
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[self getPropertiesDict] forKey:@"user"];
+}
+
+- (void) eraseProperties{
+    self.uid = @"";
+    self.email = @"";
+    self.password = @"";
+    self.firstname = @"";
+    self.lastname = @"";
+    self.username = @"";
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:[self getPropertiesDict] forKey:@"user"];
 }

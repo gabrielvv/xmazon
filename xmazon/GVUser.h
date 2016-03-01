@@ -28,4 +28,5 @@
 -(void) updateProperties:(NSDictionary*) dict andStore:(BOOL)store;
 - (NSDictionary*) getPropertiesDict;
 - (void) storeProperties;
+- (void) eraseProperties;
 @end

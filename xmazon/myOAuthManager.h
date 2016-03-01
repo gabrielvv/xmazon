@@ -14,10 +14,12 @@
     NSDictionary* urlDict_;
     NSDictionary* credentials_;
     BOOL waitFlag_;
-    //property héritée de AFHTTPSessionManager:
-    //NSURL baseURL
-    //AFHTTPRequestSerializer requestSerializer
-    //AFHTTPResponseSerializer responseSerializer
+    /*
+     property héritée de AFHTTPSessionManager:
+        NSURL baseURL
+        AFHTTPRequestSerializer requestSerializer
+        AFHTTPResponseSerializer responseSerializer
+     */
 }
 
 @property(nonatomic, retain) NSMutableDictionary* oauthTokens;
@@ -27,16 +29,22 @@
 
 + (id)sharedManager;
 - (void) getCategoryListForStore:(NSString*)store_uid search:(nullable NSString*)q limit:(nullable NSNumber*)lim offset:(nullable NSNumber*)offset successCallback:(nullable void ( ^ )(NSDictionary*))sc;
-//- (BOOL) cartRemove;
-//- (BOOL) cartAdd;
+
 - (void) getProductListForCat:(NSString*)category_uid search:(nullable NSString*)q limit:(nullable NSNumber*)lim offset:(nullable NSNumber*)offset successCallback:(nullable void ( ^ )(NSDictionary*))sc;
-//- (nullable NSDictionary*) getUser;
-- (void) getStoreListWithSuccessCallback:(nullable void ( ^ )(NSDictionary*))sc;
-//- (nullable NSDictionary*) getOrderList;
-//- (BOOL) orderCreate;
-- (void) authSubscribeWithMail:(NSString*)email andPassword:(NSString*)password callback:(nullable void ( ^ )(NSDictionary*))c;
-- (void) getAndSetOAuthTokenForUser:(BOOL)refresh username:(NSString*)username password:(NSString*)password successCallback:(void (^)())block;
+
+- (void) getStoreListWithSuccessCallback:(nullable void ( ^ )(NSDictionary*))sc errorCallback:(nullable void ( ^ )())ec;
+
+- (void) authSubscribeWithMail:(NSString*)email andPassword:(NSString*)password successCallback:(nullable void ( ^ )(NSDictionary*))c errorCallback:(nullable void ( ^ )())e;
+
+- (void) getAndSetOAuthTokenForUser:(BOOL)refresh username:(NSString*)username password:(NSString*)password successCallback:(void (^)())block errorCallback:(void (^)())ec;
 
 - (void) getAndSetOAuthTokenForApp:(BOOL)refresh successCallback:(nullable void (^)())block;
+- (void) eraseTokens;
+
+//- (BOOL) cartRemove;
+//- (BOOL) cartAdd;
+//- (nullable NSDictionary*) getOrderList;
+//- (BOOL) orderCreate;
+//- (nullable NSDictionary*) getUser;
 
 @end

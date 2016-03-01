@@ -9,9 +9,10 @@
             <connections>
                 <outlet property="connexionButton" destination="JvP-U2-P3H" id="W5F-sa-Tig"/>
                 <outlet property="createUserButton" destination="eot-3G-alO" id="Pl8-GB-1Xz"/>
+                <outlet property="errorMessage" destination="Row-Bu-PX9" id="yrs-v4-6ro"/>
                 <outlet property="passField" destination="Hau-Gq-QtE" id="SUk-iA-i9d"/>
                 <outlet property="userNameField" destination="teU-62-mu6" id="gBd-0C-Kk3"/>
-                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="29h-TO-UMr"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -63,6 +64,14 @@
                         <outlet property="delegate" destination="-1" id="VTK-Ow-lK2"/>
                     </connections>
                 </textField>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Echec de la connexion, veuillez vérifier vos identifiants" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Row-Bu-PX9">
+                    <rect key="frame" x="79" y="83" width="169" height="46"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

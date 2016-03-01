@@ -10,6 +10,8 @@
 #import "StoreViewController.h"
 #import "myOAuthManager.h"
 #import "GVUser.h"
+#import "TabBarViewController.h"
+#import "AppDelegate.h"
 
 @interface CreateUserViewController () <UITextFieldDelegate>
 
@@ -38,6 +40,7 @@
     self.userNameLabel.hidden = YES;
     self.passOneLabel.hidden = YES;
     self.passTwoLabel.hidden = YES;
+    self.errorMessage.hidden = YES;
     
 //    NSLog(@"create");
 //    NSLog(@"username :%@", self.userName.text);
@@ -73,23 +76,48 @@
     
     GVUser* user = [GVUser sharedUser];
 
-    void (^myBlock)(NSDictionary*) = ^(NSDictionary* response){
+    void (^mySBlock)(NSDictionary*) = ^(NSDictionary* response){
+        
         user.password = self.passOne.text;
         [user storeProperties];
+        
         //Temporaire: Test si l'opération a réussie -> ce n'est pas là qu'il faudrait le faire
         if([user.username isEqualToString:self.userName.text] && [user.password isEqualToString:self.passOne.text]){
-//            StoreViewController* store = [StoreViewController new];
-//            [self.navigationController pushViewController:store animated:YES];
+            TabBarViewController* tabBar = [TabBarViewController new];
+            UINavigationController* navCtrl = [[UINavigationController alloc] initWithRootViewController:tabBar];
+            [navCtrl setNavigationBarHidden:true];
+            
+            AppDelegate *app = [[UIApplication sharedApplication] delegate];
+            [app.window makeKeyAndVisible];
+            app.window.rootViewController = navCtrl;
+            
+            StoreViewController* storeCtrl = (StoreViewController*)[[[tabBar viewControllers] objectAtIndex:0] topViewController];
+            
+            void (^sc)(NSDictionary*) = ^(NSDictionary* response){
+                storeCtrl.stores = [response objectForKey:@"result"];
+                [[NSUserDefaults standardUserDefaults] setObject:storeCtrl.stores forKey:@"stores"];
+                [storeCtrl.storeTableView reloadData];
+            };
+            
+            [tabBar setSelectedIndex:0];
+            
+            [[myOAuthManager sharedManager] getStoreListWithSuccessCallback: sc errorCallback:nil];
+            
         }else{
             //Message d'erreur
+            self.errorMessage.hidden = NO;
+
         }
-        StoreViewController* store = [StoreViewController new];
-//        [self.rootViewController pushViewController:store animated:YES];
+
 
     };
     
+    void (^myEBlock)() = ^(){
+        self.errorMessage.hidden = NO;
+    };
+    
     myOAuthManager* sharedManager = [myOAuthManager sharedManager];
-    [sharedManager authSubscribeWithMail:self.userName.text andPassword:self.passOne.text callback:myBlock];
+    [sharedManager authSubscribeWithMail:self.userName.text andPassword:self.passOne.text successCallback:mySBlock errorCallback:myEBlock];
     
     
 

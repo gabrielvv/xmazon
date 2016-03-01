@@ -11,9 +11,16 @@
 @interface ProductViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>{
     
     NSMutableArray* products_;
+    NSString* catLabel_;
+    NSString* storeLabel_;
+    
 }
+@property (weak, nonatomic) IBOutlet UILabel *storeName;
+@property (weak, nonatomic) IBOutlet UILabel *category;
 
 @property (weak, nonatomic) IBOutlet UITableView *productTableView;
 @property (nonatomic) NSMutableArray* products;
+@property (nonatomic) NSString* catLabel;
+@property (nonatomic) NSString* storeLabel;
 
 @end

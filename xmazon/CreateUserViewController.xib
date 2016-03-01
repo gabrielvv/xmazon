@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateUserViewController">
             <connections>
+                <outlet property="errorMessage" destination="YO3-KC-242" id="UvY-zP-l9o"/>
                 <outlet property="firstName" destination="mAs-4b-AQY" id="IDM-mJ-syb"/>
                 <outlet property="lastName" destination="TPW-KR-Jow" id="14f-Nu-VUb"/>
                 <outlet property="passOne" destination="Yj6-bK-uTQ" id="JPi-qX-U6c"/>
@@ -112,6 +113,14 @@
                         <outlet property="delegate" destination="-1" id="9HK-KZ-Xmn"/>
                     </connections>
                 </textField>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="La création a échoué" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YO3-KC-242">
+                    <rect key="frame" x="75" y="287" width="170" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
