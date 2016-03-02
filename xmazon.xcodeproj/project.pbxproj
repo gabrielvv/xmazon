@@ -27,8 +27,8 @@
 		767512061C70A691003A1D91 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 767512041C70A691003A1D91 /* UserViewController.xib */; };
 		7675120A1C70A988003A1D91 /* CreateUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 767512081C70A988003A1D91 /* CreateUserViewController.m */; };
 		7675120B1C70A988003A1D91 /* CreateUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 767512091C70A988003A1D91 /* CreateUserViewController.xib */; };
-		767A702A1C81C077008AD487 /* myOAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 767A70291C81C077008AD487 /* myOAuthManager.m */; };
-		767A702D1C821BA0008AD487 /* GVUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 767A702C1C821BA0008AD487 /* GVUser.m */; };
+		767A702A1C81C077008AD487 /* MyOAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 767A70291C81C077008AD487 /* MyOAuthManager.m */; };
+		767A702D1C821BA0008AD487 /* JZUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 767A702C1C821BA0008AD487 /* JZUser.m */; };
 		76EAF8071C85E07F00D7C1D2 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EAF8051C85E07F00D7C1D2 /* CategoryViewController.m */; };
 		76EAF8081C85E07F00D7C1D2 /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76EAF8061C85E07F00D7C1D2 /* CategoryViewController.xib */; };
 		E76EB37944F8BBC6189A8259 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24FA820CFF1B1CD28142EC6E /* libPods.a */; };
@@ -69,10 +69,10 @@
 		767512071C70A988003A1D91 /* CreateUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateUserViewController.h; sourceTree = "<group>"; };
 		767512081C70A988003A1D91 /* CreateUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateUserViewController.m; sourceTree = "<group>"; };
 		767512091C70A988003A1D91 /* CreateUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateUserViewController.xib; sourceTree = "<group>"; };
-		767A70281C81C077008AD487 /* myOAuthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myOAuthManager.h; sourceTree = "<group>"; };
-		767A70291C81C077008AD487 /* myOAuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myOAuthManager.m; sourceTree = "<group>"; };
-		767A702B1C821BA0008AD487 /* GVUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GVUser.h; sourceTree = "<group>"; };
-		767A702C1C821BA0008AD487 /* GVUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GVUser.m; sourceTree = "<group>"; };
+		767A70281C81C077008AD487 /* MyOAuthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOAuthManager.h; sourceTree = "<group>"; };
+		767A70291C81C077008AD487 /* MyOAuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOAuthManager.m; sourceTree = "<group>"; };
+		767A702B1C821BA0008AD487 /* JZUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JZUser.h; sourceTree = "<group>"; };
+		767A702C1C821BA0008AD487 /* JZUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JZUser.m; sourceTree = "<group>"; };
 		76EAF8041C85E07F00D7C1D2 /* CategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryViewController.h; sourceTree = "<group>"; };
 		76EAF8051C85E07F00D7C1D2 /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
 		76EAF8061C85E07F00D7C1D2 /* CategoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
@@ -111,6 +111,7 @@
 		762BDA251C6F423D0033F521 /* xmazon */ = {
 			isa = PBXGroup;
 			children = (
+				76AE985B1C8775D900470016 /* Views */,
 				762BDA291C6F423D0033F521 /* AppDelegate.h */,
 				762BDA2A1C6F423D0033F521 /* AppDelegate.m */,
 				762BDA351C6F423E0033F521 /* Assets.xcassets */,
@@ -120,6 +121,28 @@
 				767511E11C70A5AF003A1D91 /* TabBarViewController.h */,
 				767511E21C70A5AF003A1D91 /* TabBarViewController.m */,
 				767511E31C70A5AF003A1D91 /* TabBarViewController.xib */,
+				767A70281C81C077008AD487 /* MyOAuthManager.h */,
+				767A70291C81C077008AD487 /* MyOAuthManager.m */,
+				767A702B1C821BA0008AD487 /* JZUser.h */,
+				767A702C1C821BA0008AD487 /* JZUser.m */,
+			);
+			path = xmazon;
+			sourceTree = "<group>";
+		};
+		762BDA261C6F423D0033F521 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				762BDA271C6F423D0033F521 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		76AE985B1C8775D900470016 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				76EAF8041C85E07F00D7C1D2 /* CategoryViewController.h */,
+				76EAF8051C85E07F00D7C1D2 /* CategoryViewController.m */,
+				76EAF8061C85E07F00D7C1D2 /* CategoryViewController.xib */,
 				767511E61C70A5D4003A1D91 /* StoreViewController.h */,
 				767511E71C70A5D4003A1D91 /* StoreViewController.m */,
 				767511E81C70A5D4003A1D91 /* StoreViewController.xib */,
@@ -141,23 +164,8 @@
 				767512071C70A988003A1D91 /* CreateUserViewController.h */,
 				767512081C70A988003A1D91 /* CreateUserViewController.m */,
 				767512091C70A988003A1D91 /* CreateUserViewController.xib */,
-				767A70281C81C077008AD487 /* myOAuthManager.h */,
-				767A70291C81C077008AD487 /* myOAuthManager.m */,
-				767A702B1C821BA0008AD487 /* GVUser.h */,
-				767A702C1C821BA0008AD487 /* GVUser.m */,
-				76EAF8041C85E07F00D7C1D2 /* CategoryViewController.h */,
-				76EAF8051C85E07F00D7C1D2 /* CategoryViewController.m */,
-				76EAF8061C85E07F00D7C1D2 /* CategoryViewController.xib */,
 			);
-			path = xmazon;
-			sourceTree = "<group>";
-		};
-		762BDA261C6F423D0033F521 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				762BDA271C6F423D0033F521 /* main.m */,
-			);
-			name = "Supporting Files";
+			name = Views;
 			sourceTree = "<group>";
 		};
 		B5D07276C491A6D53D1DD4C6 /* Pods */ = {
@@ -313,12 +321,12 @@
 				767512051C70A691003A1D91 /* UserViewController.m in Sources */,
 				767511E41C70A5AF003A1D91 /* TabBarViewController.m in Sources */,
 				767511FB1C70A65F003A1D91 /* LoginViewController.m in Sources */,
-				767A702D1C821BA0008AD487 /* GVUser.m in Sources */,
+				767A702D1C821BA0008AD487 /* JZUser.m in Sources */,
 				767511F31C70A625003A1D91 /* SearchViewController.m in Sources */,
 				76EAF8071C85E07F00D7C1D2 /* CategoryViewController.m in Sources */,
 				762BDA281C6F423D0033F521 /* main.m in Sources */,
 				7675120A1C70A988003A1D91 /* CreateUserViewController.m in Sources */,
-				767A702A1C81C077008AD487 /* myOAuthManager.m in Sources */,
+				767A702A1C81C077008AD487 /* MyOAuthManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

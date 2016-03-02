@@ -8,8 +8,8 @@
 
 #import "CreateUserViewController.h"
 #import "StoreViewController.h"
-#import "myOAuthManager.h"
-#import "GVUser.h"
+#import "MyOAuthManager.h"
+#import "JZUser.h"
 #import "TabBarViewController.h"
 #import "AppDelegate.h"
 
@@ -25,7 +25,7 @@
     self.userName.autocorrectionType = UITextAutocorrectionTypeNo;
     self.firstName.autocorrectionType = UITextAutocorrectionTypeNo;
     self.lastName.autocorrectionType = UITextAutocorrectionTypeNo;
-//    myOAuthManager* sharedManager = [myOAuthManager sharedManager];
+//    MyOAuthManager* sharedManager = [MyOAuthManager sharedManager];
 //    [sharedManager getStoreList];
     // Do any additional setup after loading the view from its nib.
 }
@@ -74,7 +74,7 @@
         return;
     }
     
-    GVUser* user = [GVUser sharedUser];
+    JZUser* user = [JZUser sharedUser];
 
     void (^mySBlock)(NSDictionary*) = ^(NSDictionary* response){
         
@@ -101,7 +101,7 @@
             
             [tabBar setSelectedIndex:0];
             
-            [[myOAuthManager sharedManager] getStoreListWithSuccessCallback: sc errorCallback:nil];
+            [[MyOAuthManager sharedManager] getStoreListWithSuccessCallback: sc errorCallback:nil];
             
         }else{
             //Message d'erreur
@@ -116,7 +116,7 @@
         self.errorMessage.hidden = NO;
     };
     
-    myOAuthManager* sharedManager = [myOAuthManager sharedManager];
+    MyOAuthManager* sharedManager = [MyOAuthManager sharedManager];
     [sharedManager authSubscribeWithMail:self.userName.text andPassword:self.passOne.text successCallback:mySBlock errorCallback:myEBlock];
     
     

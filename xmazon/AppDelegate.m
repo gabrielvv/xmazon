@@ -10,8 +10,8 @@
 #import "LoginViewController.h"
 #import "TabBarViewController.h"
 #import "StoreViewController.h"
-#import "GVuser.h"
-#import "myOAuthManager.h"
+#import "JZUser.h"
+#import "MyOAuthManager.h"
 
 @interface AppDelegate ()
 
@@ -24,7 +24,7 @@
     
     UIWindow* w =[[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    GVUser* user = [GVUser sharedUser];
+    JZUser* user = [JZUser sharedUser];
     if([user.username isEqualToString:@""] || [user.password isEqualToString:@""]){
         NSLog(@"user undefined");
         //Il n'y a pas de user identifié: on charge la page de connexion
@@ -45,7 +45,7 @@
             [storeCtrl.storeTableView reloadData];
         };
         
-        [[myOAuthManager sharedManager] getStoreListWithSuccessCallback: sc errorCallback:nil];
+        [[MyOAuthManager sharedManager] getStoreListWithSuccessCallback: sc errorCallback:nil];
         
         [navCtrl setNavigationBarHidden:true];
         w.rootViewController = navCtrl;

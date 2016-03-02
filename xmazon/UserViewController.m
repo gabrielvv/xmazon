@@ -9,8 +9,8 @@
 #import "UserViewController.h"
 #import "LoginViewController.h"
 #import "AppDelegate.h"
-#import "GVUser.h"
-#import "myOAuthManager.h"
+#import "JZUser.h"
+#import "MyOAuthManager.h"
 
 @interface UserViewController ()
 
@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"User";
-    GVUser* user = [GVUser sharedUser];
+    JZUser* user = [JZUser sharedUser];
     self.username.text = user.username;
     self.lastname.text = user.lastname;
     self.firstname.text = user.firstname;
@@ -43,9 +43,9 @@
 - (void) onTouchDeconnectButton{
     NSLog(@"Touch deconnect");
     
-    [[GVUser sharedUser] eraseProperties];
+    [[JZUser sharedUser] eraseProperties];
     LoginViewController* login = [LoginViewController new];
-    [[myOAuthManager sharedManager] eraseTokens];
+    [[MyOAuthManager sharedManager] eraseTokens];
     UINavigationController* navCtrl = [[UINavigationController alloc] initWithRootViewController:login];
 
     AppDelegate *app = [[UIApplication sharedApplication] delegate];

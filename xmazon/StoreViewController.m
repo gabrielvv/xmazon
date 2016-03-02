@@ -8,7 +8,7 @@
 
 #import "StoreViewController.h"
 #import "CategoryViewController.h"
-#import "myOAuthManager.h"
+#import "MyOAuthManager.h"
 
 @interface StoreViewController ()
 
@@ -64,7 +64,7 @@ static  NSString* const kCellReuseIdentifier = @"CoolId";
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     categoryCtrl.storeLabel = cell.textLabel.text;
 
-    [[myOAuthManager sharedManager] getCategoryListForStore:[store objectForKey:@"uid"] search:nil limit:nil offset:nil successCallback:sc];
+    [[MyOAuthManager sharedManager] getCategoryListForStore:[store objectForKey:@"uid"] search:nil limit:nil offset:nil successCallback:sc];
 
     [self.navigationController pushViewController:categoryCtrl animated:YES];
 }

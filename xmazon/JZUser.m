@@ -1,14 +1,14 @@
 //
-//  GVUser.m
+//  JZUser.m
 //  xmazon
 //
 //  Created by ZEREN on 27/02/2016.
 //  Copyright © 2016 esgi. All rights reserved.
 //
 
-#import "GVUser.h"
+#import "JZUser.h"
 
-@implementation GVUser
+@implementation JZUser
 
 @synthesize uid = uid_;
 @synthesize email = email_;
@@ -18,7 +18,7 @@
 @synthesize username = username_;
 
 +(id)sharedUser{
-    static GVUser *sharedUser = nil;
+    static JZUser *sharedUser = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedUser = [[self alloc] init];

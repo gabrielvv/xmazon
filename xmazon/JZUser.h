@@ -1,5 +1,5 @@
 //
-//  GVUser.h
+//  JZUser.h
 //  xmazon
 //
 //  Created by ZEREN on 27/02/2016.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GVUser : NSObject{
+@interface JZUser : NSObject{
     NSString* uid_;
     NSString* email_;
     NSString* username_;

@@ -9,8 +9,8 @@
 #import "LoginViewController.h"
 #import "CreateUserViewController.h"
 #import "StoreViewController.h"
-#import "myOAuthManager.h"
-#import "GVUser.h"
+#import "MyOAuthManager.h"
+#import "JZUser.h"
 #import "TabBarViewController.h"
 #import "AppDelegate.h"
 
@@ -24,7 +24,7 @@
     [super viewDidLoad];
     self.title = @"Login";
     self.errorMessage.hidden = YES;
-    GVUser* user = [GVUser sharedUser];
+    JZUser* user = [JZUser sharedUser];
     self.userNameField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.userNameField.text = user.email;
     self.passField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -65,14 +65,14 @@
         
         [tabBar setSelectedIndex:0];
         
-        [[myOAuthManager sharedManager] getStoreListWithSuccessCallback:sc errorCallback: nil];
+        [[MyOAuthManager sharedManager] getStoreListWithSuccessCallback:sc errorCallback: nil];
     };
     
     void (^ec)() = ^(){
         self.errorMessage.hidden = NO;
     };
     
-    [[myOAuthManager sharedManager] getAndSetOAuthTokenForUser:false username:self.userNameField.text password:self.passField.text successCallback:myBlock errorCallback:ec];
+    [[MyOAuthManager sharedManager] getAndSetOAuthTokenForUser:false username:self.userNameField.text password:self.passField.text successCallback:myBlock errorCallback:ec];
 }
 
 - (IBAction)onTouchCreate:(id)sender {

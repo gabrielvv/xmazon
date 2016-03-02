@@ -8,7 +8,7 @@
 
 #import "CategoryViewController.h"
 #import "ProductViewController.h"
-#import "myOAuthManager.h"
+#import "MyOAuthManager.h"
 
 @interface CategoryViewController ()
 
@@ -67,7 +67,7 @@ static  NSString* const kCellReuseIdentifier = @"CoolId";
     productCtrl.catLabel = cell.textLabel.text;
     productCtrl.storeLabel = self.storeLabel;
     NSLog(@"didSelectRow %@ - %@", productCtrl.catLabel, productCtrl.storeLabel);
-    [[myOAuthManager sharedManager] getProductListForCat:[category objectForKey:@"uid"] search:nil limit:nil offset:nil successCallback:sc];
+    [[MyOAuthManager sharedManager] getProductListForCat:[category objectForKey:@"uid"] search:nil limit:nil offset:nil successCallback:sc];
     
     [self.navigationController pushViewController:productCtrl animated:YES];
 }
