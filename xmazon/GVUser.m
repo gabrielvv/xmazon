@@ -2,7 +2,7 @@
 //  GVUser.m
 //  xmazon
 //
-//  Created by VAUTRIN on 27/02/2016.
+//  Created by ZEREN on 27/02/2016.
 //  Copyright © 2016 esgi. All rights reserved.
 //
 

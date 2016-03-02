@@ -2,25 +2,25 @@
 //  OrdersViewController.m
 //  xmazon
 //
-//  Created by VAUTRIN on 14/02/2016.
+//  Created by SEDRAIA on 14/02/2016.
 //  Copyright © 2016 esgi. All rights reserved.
 //
 
-#import "OrdersViewController.h"
+#import "UserViewController.h"
 #import "LoginViewController.h"
 #import "AppDelegate.h"
 #import "GVUser.h"
 #import "myOAuthManager.h"
 
-@interface OrdersViewController ()
+@interface UserViewController ()
 
 @end
 
-@implementation OrdersViewController
+@implementation UserViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"User Info";
+    self.title = @"User";
     GVUser* user = [GVUser sharedUser];
     self.username.text = user.username;
     self.lastname.text = user.lastname;

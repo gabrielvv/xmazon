@@ -2,7 +2,7 @@
 //  StoreViewController.m
 //  xmazon
 //
-//  Created by VAUTRIN on 14/02/2016.
+//  Created by SEDRAIA on 14/02/2016.
 //  Copyright © 2016 esgi. All rights reserved.
 //
 

@@ -13,7 +13,6 @@
     NSMutableDictionary* oauthTokens_;
     NSDictionary* urlDict_;
     NSDictionary* credentials_;
-    BOOL waitFlag_;
     /*
      property héritée de AFHTTPSessionManager:
         NSURL baseURL
@@ -25,7 +24,6 @@
 @property(nonatomic, retain) NSMutableDictionary* oauthTokens;
 @property(nonatomic, retain) NSDictionary* urlDict;
 @property(nonatomic, retain) NSDictionary* credentials;
-@property(nonatomic) BOOL waitFlag;
 
 + (id)sharedManager;
 - (void) getCategoryListForStore:(NSString*)store_uid search:(nullable NSString*)q limit:(nullable NSNumber*)lim offset:(nullable NSNumber*)offset successCallback:(nullable void ( ^ )(NSDictionary*))sc;

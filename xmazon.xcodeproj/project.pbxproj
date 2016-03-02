@@ -23,8 +23,8 @@
 		767511FC1C70A65F003A1D91 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 767511FA1C70A65F003A1D91 /* LoginViewController.xib */; };
 		767512001C70A676003A1D91 /* CartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 767511FE1C70A676003A1D91 /* CartViewController.m */; };
 		767512011C70A676003A1D91 /* CartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 767511FF1C70A676003A1D91 /* CartViewController.xib */; };
-		767512051C70A691003A1D91 /* OrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 767512031C70A691003A1D91 /* OrdersViewController.m */; };
-		767512061C70A691003A1D91 /* OrdersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 767512041C70A691003A1D91 /* OrdersViewController.xib */; };
+		767512051C70A691003A1D91 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 767512031C70A691003A1D91 /* UserViewController.m */; };
+		767512061C70A691003A1D91 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 767512041C70A691003A1D91 /* UserViewController.xib */; };
 		7675120A1C70A988003A1D91 /* CreateUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 767512081C70A988003A1D91 /* CreateUserViewController.m */; };
 		7675120B1C70A988003A1D91 /* CreateUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 767512091C70A988003A1D91 /* CreateUserViewController.xib */; };
 		767A702A1C81C077008AD487 /* myOAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 767A70291C81C077008AD487 /* myOAuthManager.m */; };
@@ -63,9 +63,9 @@
 		767511FD1C70A676003A1D91 /* CartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CartViewController.h; sourceTree = "<group>"; };
 		767511FE1C70A676003A1D91 /* CartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CartViewController.m; sourceTree = "<group>"; };
 		767511FF1C70A676003A1D91 /* CartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CartViewController.xib; sourceTree = "<group>"; };
-		767512021C70A691003A1D91 /* OrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrdersViewController.h; sourceTree = "<group>"; };
-		767512031C70A691003A1D91 /* OrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersViewController.m; sourceTree = "<group>"; };
-		767512041C70A691003A1D91 /* OrdersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrdersViewController.xib; sourceTree = "<group>"; };
+		767512021C70A691003A1D91 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
+		767512031C70A691003A1D91 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
+		767512041C70A691003A1D91 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
 		767512071C70A988003A1D91 /* CreateUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateUserViewController.h; sourceTree = "<group>"; };
 		767512081C70A988003A1D91 /* CreateUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateUserViewController.m; sourceTree = "<group>"; };
 		767512091C70A988003A1D91 /* CreateUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateUserViewController.xib; sourceTree = "<group>"; };
@@ -135,9 +135,9 @@
 				767511FD1C70A676003A1D91 /* CartViewController.h */,
 				767511FE1C70A676003A1D91 /* CartViewController.m */,
 				767511FF1C70A676003A1D91 /* CartViewController.xib */,
-				767512021C70A691003A1D91 /* OrdersViewController.h */,
-				767512031C70A691003A1D91 /* OrdersViewController.m */,
-				767512041C70A691003A1D91 /* OrdersViewController.xib */,
+				767512021C70A691003A1D91 /* UserViewController.h */,
+				767512031C70A691003A1D91 /* UserViewController.m */,
+				767512041C70A691003A1D91 /* UserViewController.xib */,
 				767512071C70A988003A1D91 /* CreateUserViewController.h */,
 				767512081C70A988003A1D91 /* CreateUserViewController.m */,
 				767512091C70A988003A1D91 /* CreateUserViewController.xib */,
@@ -238,7 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				767512011C70A676003A1D91 /* CartViewController.xib in Resources */,
-				767512061C70A691003A1D91 /* OrdersViewController.xib in Resources */,
+				767512061C70A691003A1D91 /* UserViewController.xib in Resources */,
 				767511EA1C70A5D4003A1D91 /* StoreViewController.xib in Resources */,
 				762BDA391C6F423E0033F521 /* LaunchScreen.storyboard in Resources */,
 				767511F41C70A625003A1D91 /* SearchViewController.xib in Resources */,
@@ -310,7 +310,7 @@
 				767511E91C70A5D4003A1D91 /* StoreViewController.m in Sources */,
 				762BDA2B1C6F423D0033F521 /* AppDelegate.m in Sources */,
 				767511EE1C70A5EF003A1D91 /* ProductViewController.m in Sources */,
-				767512051C70A691003A1D91 /* OrdersViewController.m in Sources */,
+				767512051C70A691003A1D91 /* UserViewController.m in Sources */,
 				767511E41C70A5AF003A1D91 /* TabBarViewController.m in Sources */,
 				767511FB1C70A65F003A1D91 /* LoginViewController.m in Sources */,
 				767A702D1C821BA0008AD487 /* GVUser.m in Sources */,

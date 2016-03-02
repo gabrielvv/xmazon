@@ -2,7 +2,7 @@
 //  CategoryViewController.h
 //  xmazon
 //
-//  Created by VAUTRIN on 01/03/2016.
+//  Created by SEDRAIA on 01/03/2016.
 //  Copyright © 2016 esgi. All rights reserved.
 //
 

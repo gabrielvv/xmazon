@@ -2,7 +2,7 @@
 //  TabBarViewController.m
 //  xmazon
 //
-//  Created by VAUTRIN on 14/02/2016.
+//  Created by SEDRAIA on 14/02/2016.
 //  Copyright © 2016 esgi. All rights reserved.
 //
 
@@ -11,7 +11,7 @@
 #import "StoreViewController.h"
 #import "SearchViewController.h"
 #import "CartViewController.h"
-#import "OrdersViewController.h"
+#import "UserViewController.h"
 
 @interface TabBarViewController ()
 
@@ -38,7 +38,7 @@
     
     /*****************************************/
     
-    UINavigationController* userNavCtrl = [[UINavigationController alloc] initWithRootViewController:[OrdersViewController new]];
+    UINavigationController* userNavCtrl = [[UINavigationController alloc] initWithRootViewController:[UserViewController new]];
     userNavCtrl.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts tag: 4];
     
     /*****************************************/

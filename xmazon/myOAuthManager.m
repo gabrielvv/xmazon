@@ -13,16 +13,14 @@
 
 //Private methods
 
-- (void) getAndSetOAuthTokenForApp:(BOOL)refresh;
 //- (void) getAndSetOAuthTokenForApp:(BOOL)refresh successCallback:(nullable void (^)())block;
 - (void) getAndSetOAuthTokenWithGrantType:(NSString*)type andParams:(nullable NSDictionary*) params successCallback:(void (^)(NSDictionary*))block errorCallback:(nullable void (^)())ec;
-- (void) execRequestWithMethod:(NSString*)method url:(NSString*)url params:(id)params auth:(NSString*)appOrUser successCallback:(nullable void ( ^ )(NSDictionary*))c errorCallback:(nullable void ( ^ )())e needToken:(BOOL)need_token;
+- (void) execRequestWithMethod:(NSString*)method url:(NSString*)url params:(id)params auth:(NSString*)appOrUser successCallback:(nullable void ( ^ )(NSDictionary*))c errorCallback:(nullable void ( ^ )())e needAuth:(BOOL)need_auth;
 
 @end
 
 @implementation myOAuthManager
 
-@synthesize waitFlag = waitFlag_;
 @synthesize oauthTokens = oauthTokens_;
 @synthesize credentials = credentials_;
 
@@ -72,8 +70,6 @@
                 if([oauthTokens objectForKey:@"appDate"]) [self.oauthTokens setObject:[oauthTokens objectForKey:@"appDate"] forKey:@"appDate"];
             }
         }
-        
-        self.waitFlag = false;
     }
     return self;
 }
@@ -89,18 +85,15 @@
 
 /**************************************  EXEC REQUEST *******************************************************/
 
-- (void) execRequestWithMethod:(NSString*)method url:(NSString*)url params:(id)params auth:(NSString*)appOrUser successCallback:(nullable void ( ^ )(NSDictionary*))c errorCallback:(nullable void ( ^ )())e needToken:(BOOL)need_token{
+- (void) execRequestWithMethod:(NSString*)method url:(NSString*)url params:(id)params auth:(NSString*)appOrUser successCallback:(nullable void ( ^ )(NSDictionary*))c errorCallback:(nullable void ( ^ )())e needAuth:(BOOL)need_auth{
     
     NSString* access_token = [[self.oauthTokens objectForKey:appOrUser] objectForKey:@"access_token"];
     
     NSString* authHeader = [NSString stringWithFormat:@"Bearer %@",access_token];
-    [self.requestSerializer setValue:authHeader forHTTPHeaderField:@"Authorization"];
+    [self.requestSerializer setValue:(need_auth ? authHeader : nil) forHTTPHeaderField:@"Authorization"];
 
-    __block BOOL fail = false;
     __block NSDictionary* response = nil;
-    //If we fail, we repeat the request X times until we decide it's too much
-    __block int count = 0;
-    ;
+
     NSLog(@"execRequestWithMethod");
     if([method isEqualToString:@"POST"]){
         [self POST:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
@@ -115,15 +108,13 @@
             }
             
             if([httpCode isEqualToNumber:[NSNumber numberWithInt:500]]){
-                NSLog(@"\tCode 500"); //ça marche
+                NSLog(@"\tCode 500");
             }
             
             if(![httpCode isEqualToNumber:[NSNumber numberWithInt:401]] && ![httpCode isEqualToNumber:[NSNumber numberWithInt:500]]){
                 //Appel Callback
                 if(c) c(response);
             }
-            self.waitFlag = false;
-
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             NSLog(@"POST server error: %@", error);
@@ -131,8 +122,6 @@
                 NSLog(@"error callback");
                 e();
             }
-            count++;
-            self.waitFlag = false;
         }];
     }
     
@@ -148,14 +137,12 @@
                 if(c) c(response);
             }
             
-            
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             NSLog(@"GET server error: %@", error);
             if(e){
                 NSLog(@"error callback");
                 e();
-            }            count++;
-            fail = true;
+            }
         }];
     }
     
@@ -188,7 +175,7 @@
     }
 
     NSString* url = [[NSURL URLWithString:@"oauth/token" relativeToURL:self.baseURL] absoluteString];
-    [self execRequestWithMethod:@"POST" url:url params:params auth:nil successCallback:block errorCallback:ec needToken:false];
+    [self execRequestWithMethod:@"POST" url:url params:params auth:nil successCallback:block errorCallback:ec needAuth:false];
 
 }
 
@@ -210,54 +197,27 @@
         if(block) block();
     } errorCallback:nil];
     
-//    return [self.oauthTokens objectForKey:@"app"];
 }
 
 /*******************************************************************************************************************/
 
 - (void) getAndSetOAuthTokenForUser:(BOOL)refresh username:(NSString*)username password:(NSString*)password successCallback:(void (^)())block errorCallback:(void (^)())ec{
     
-    NSDate* d = [self.oauthTokens objectForKey:@"userDate"];
-    
-    
     NSLog(@"getAndSetOAuthForUser");
-    NSDictionary* additionalParams = nil;
     NSString* grant_type = refresh ? @"refresh_token" : @"password";
-
-    NSString* access_token = [[self.oauthTokens objectForKey:@"user"] objectForKey:@"access_token"];
-    additionalParams = (refresh ? @{@"refresh_token": [[self.oauthTokens objectForKey:@"user"] objectForKey:@"refresh_token"]} : @{@"username": username, @"password": password});
+    NSDictionary* additionalParams = (refresh ? @{@"refresh_token": [[self.oauthTokens objectForKey:@"user"] objectForKey:@"refresh_token"]} : @{@"username": username, @"password": password});
     
-    if(access_token){
-            
-        [self getAndSetOAuthTokenWithGrantType:grant_type andParams:additionalParams successCallback:^(NSDictionary* response){
-            NSLog(@"My Block");
-            [self.oauthTokens setObject:response forKey:@"user"];
-            [self.oauthTokens setObject:[NSDate date] forKey:@"userDate"];
-            [[NSUserDefaults standardUserDefaults] setObject:self.oauthTokens forKey:@"oauthTokens"];
-            NSLog(@"\t oauthTokens %@", [self.oauthTokens objectForKey:@"user"]);
-            GVUser *user = [GVUser sharedUser];
-            [user updateProperties:@{@"uid": @"", @"password": password, @"username": username, @"lastname": @"", @"email": @"", @"firstname":@""} andStore:true];
-            block();
-        } errorCallback:ec];
-        
-    }else{
-        void (^sc)() = ^(){
-            [self getAndSetOAuthTokenWithGrantType:grant_type andParams:additionalParams successCallback:^(NSDictionary* response){
-                NSLog(@"My Block");
-                [self.oauthTokens setObject:response forKey:@"user"];
-                [[NSUserDefaults standardUserDefaults] setObject:self.oauthTokens forKey:@"oauthTokens"];
-                NSLog(@"\t oauthTokens %@", [self.oauthTokens objectForKey:@"user"]);
-                GVUser *user = [GVUser sharedUser];
-                [user updateProperties:@{@"uid": @"", @"password": password, @"username": username, @"lastname": @"", @"email": @"", @"firstname":@""} andStore:true];
-                block();
-            } errorCallback:ec];
-        };
-        
-        [self getAndSetOAuthTokenForApp:false successCallback:sc];
-        
-    }
-
-
+    [self getAndSetOAuthTokenWithGrantType:grant_type andParams:additionalParams successCallback:^(NSDictionary* response){
+        NSLog(@"My Block");
+        [self.oauthTokens setObject:response forKey:@"user"];
+        [self.oauthTokens setObject:[NSDate date] forKey:@"userDate"];
+        [[NSUserDefaults standardUserDefaults] setObject:self.oauthTokens forKey:@"oauthTokens"];
+        NSLog(@"\t oauthTokens %@", [self.oauthTokens objectForKey:@"user"]);
+        GVUser *user = [GVUser sharedUser];
+        [user updateProperties:@{@"uid": @"", @"password": password, @"username": username, @"lastname": @"", @"email": @"", @"firstname":@""} andStore:true];
+        block();
+    } errorCallback:ec];
+    
 }
 
 /*******************************************************************************************************************/
@@ -265,7 +225,6 @@
 - (void) authSubscribeWithMail:(NSString*)email andPassword:(NSString*)password successCallback:(nullable void ( ^ )(NSDictionary*))c errorCallback:(nullable void ( ^ )())e{
     
     NSLog(@"authSubscribeWithMail");
-    //    NSDictionary* response;
     NSString* url = [[NSURL URLWithString:@"auth/subscribe" relativeToURL:self.baseURL] absoluteString];
     
     NSString* access_token = [[self.oauthTokens objectForKey:@"app"] objectForKey:@"access_token"];
@@ -273,7 +232,7 @@
     //Si le token n'est pas disponible, on lance une requête de token
     if(!access_token){
         
-        NSLog(@"need_token");
+        NSLog(@"need_auth");
         
         void (^sc)() = ^(){
         
@@ -287,7 +246,7 @@
             };
 
             //Authorization Bearer + app token
-            [self execRequestWithMethod:@"POST" url:url params:@{@"email":email, @"password":password} auth:@"app" successCallback:myBlock errorCallback:e needToken:true];
+            [self execRequestWithMethod:@"POST" url:url params:@{@"email":email, @"password":password} auth:@"app" successCallback:myBlock errorCallback:e needAuth:true];
         
         };
         
@@ -299,7 +258,7 @@
         
         if(![self mustRefreshTokenFor:@"app"]){
             
-            NSLog(@"don't need_token");
+            NSLog(@"don't need_auth");
             void (^myBlock)(NSDictionary*) = ^(NSDictionary* response){
                 NSLog(@"\tmyBlock");
             
@@ -309,9 +268,8 @@
                 c(response);
             };
             
-            
             //Authorization Bearer + app token
-            [self execRequestWithMethod:@"POST" url:url params:@{@"email":email, @"password":password} auth:@"app" successCallback:myBlock errorCallback:nil needToken:true];
+            [self execRequestWithMethod:@"POST" url:url params:@{@"email":email, @"password":password} auth:@"app" successCallback:myBlock errorCallback:nil needAuth:true];
         
         }else{
             NSLog(@"refresh_token");
@@ -328,7 +286,7 @@
                 };
                 
                 //Authorization Bearer + app token
-                [self execRequestWithMethod:@"POST" url:url params:@{@"email":email, @"password":password} auth:@"app" successCallback:myBlock errorCallback:e needToken:true];
+                [self execRequestWithMethod:@"POST" url:url params:@{@"email":email, @"password":password} auth:@"app" successCallback:myBlock errorCallback:e needAuth:true];
                 
             };
             
@@ -346,7 +304,7 @@
     NSString* url = [[NSURL URLWithString:@"category/list" relativeToURL:self.baseURL] absoluteString];
     
     //Authorization Bearer + app token
-    [self execRequestWithMethod:@"GET" url:url params:@{@"store_uid":store_uid} auth:@"app" successCallback:sc errorCallback:nil needToken: true];
+    [self execRequestWithMethod:@"GET" url:url params:@{@"store_uid":store_uid} auth:@"app" successCallback:sc errorCallback:nil needAuth: true];
 
 }
 
@@ -359,18 +317,18 @@
         if([self mustRefreshTokenFor:@"app"]){
             NSLog(@"must refresh");
             void (^myBlock)() = ^(){
-                [self execRequestWithMethod:@"GET" url:url params:nil auth:@"app" successCallback:sc errorCallback:ec needToken: true];
+                [self execRequestWithMethod:@"GET" url:url params:nil auth:@"app" successCallback:sc errorCallback:ec needAuth: true];
             };
             
             [self getAndSetOAuthTokenForApp:true successCallback:myBlock];
         }else{
             //Authorization Bearer + app token
-            [self execRequestWithMethod:@"GET" url:url params:nil auth:@"app" successCallback:sc errorCallback:ec needToken: true];
+            [self execRequestWithMethod:@"GET" url:url params:nil auth:@"app" successCallback:sc errorCallback:ec needAuth: true];
         }
     }else{
         NSLog(@"token undefined");
         void (^myBlock)() = ^(){
-            [self execRequestWithMethod:@"GET" url:url params:nil auth:@"app" successCallback:sc errorCallback:ec needToken: true];
+            [self execRequestWithMethod:@"GET" url:url params:nil auth:@"app" successCallback:sc errorCallback:ec needAuth: true];
         };
         
         [self getAndSetOAuthTokenForApp:false successCallback:myBlock];
@@ -388,7 +346,7 @@
     if(!access_token){
         
         void (^myBlock)() = ^(){
-            [self execRequestWithMethod:@"GET" url:url params:@{@"category_uid":category_uid} auth:@"user" successCallback:sc errorCallback:nil needToken: true];
+            [self execRequestWithMethod:@"GET" url:url params:@{@"category_uid":category_uid} auth:@"user" successCallback:sc errorCallback:nil needAuth: true];
         };
         
         [self getAndSetOAuthTokenForUser:false username:user.username password:user.password successCallback: myBlock errorCallback:nil];
@@ -399,14 +357,14 @@
         if([self mustRefreshTokenFor:@"user"]){
             NSLog(@"must refresh");
             void (^myBlock)() = ^(){
-                [self execRequestWithMethod:@"GET" url:url params:@{@"category_uid":category_uid} auth:@"user" successCallback:sc errorCallback:nil needToken: true];
+                [self execRequestWithMethod:@"GET" url:url params:@{@"category_uid":category_uid} auth:@"user" successCallback:sc errorCallback:nil needAuth: true];
             };
             
             [self getAndSetOAuthTokenForUser:true username:user.username password:user.password successCallback: myBlock errorCallback:nil];
             
         }else{
         //Authorization Bearer + user token
-        [self execRequestWithMethod:@"GET" url:url params:@{@"category_uid":category_uid} auth:@"user" successCallback:sc errorCallback:nil needToken: true];
+        [self execRequestWithMethod:@"GET" url:url params:@{@"category_uid":category_uid} auth:@"user" successCallback:sc errorCallback:nil needAuth: true];
         }
     }
 
@@ -414,7 +372,6 @@
 
 - (BOOL) mustRefreshTokenFor:(NSString*)appOrUser{
     
-//    BOOL must = false;
     if([appOrUser isEqualToString:@"app"]){
         
         NSInteger expires_in = (NSInteger)[[self.oauthTokens objectForKey:@"app"] objectForKey:@"expires_in"];
