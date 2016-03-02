@@ -51,7 +51,7 @@
 }
 
 - (void) updateProperties:(NSDictionary*) dict andStore:(BOOL)store{
-    NSLog(@"updateAndStore %@", dict);
+//    NSLog(@"updateAndStore %@", dict);
     self.uid = [dict objectForKey:@"uid"];
     self.username = [dict objectForKey:@"username"];
     self.email = [dict objectForKey:@"email"];
@@ -70,7 +70,7 @@
 }
 
 - (void) storeProperties{
-    NSLog(@"storeProperties %@", [self getPropertiesDict]);
+//    NSLog(@"storeProperties %@", [self getPropertiesDict]);
     //On stocke les valeurs dans la mémoire
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:[self getPropertiesDict] forKey:@"user"];

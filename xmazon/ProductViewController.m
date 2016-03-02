@@ -7,6 +7,7 @@
 //
 
 #import "ProductViewController.h"
+#import "TabBarViewController.h"
 
 @interface ProductViewController ()
 
@@ -38,7 +39,7 @@ static  NSString* const kCellReuseIdentifier = @"CoolId";
     }
     NSDictionary* product = [products_ objectAtIndex:indexPath.row];
     cell.textLabel.text = [product objectForKey:@"name"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Price: %@ €", [product objectForKey:@"price"]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Price: %.2f €", [[product objectForKey:@"price"] floatValue]];
     
     return cell;
 }
@@ -49,6 +50,25 @@ static  NSString* const kCellReuseIdentifier = @"CoolId";
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"Add Product To Cart" message:cell.textLabel.text preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction* validateAction = [UIAlertAction actionWithTitle: @"Validate" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
+        //Validate Action
+        TabBarViewController* tab = (TabBarViewController*)[self tabBarController];
+        UITabBarItem* item = [[[tab tabBar] items] objectAtIndex:2];
+        NSInteger i = [item.badgeValue integerValue];
+        item.badgeValue = [[NSString alloc] initWithFormat:@"%ld", ++i];
+    }];
+    
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle: @"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
+        //Cancel Action
+        
+    }];
+    
+    [alertController addAction: validateAction];
+    [alertController addAction: cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
    
 }
 @end

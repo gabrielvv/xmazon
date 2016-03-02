@@ -40,6 +40,7 @@
 
 - (void) getAndSetOAuthTokenForApp:(BOOL)refresh successCallback:(nullable void (^)())block;
 - (void) eraseTokens;
+- (BOOL) mustRefreshTokenFor:(NSString*)appOrUser;
 
 //- (BOOL) cartRemove;
 //- (BOOL) cartAdd;
