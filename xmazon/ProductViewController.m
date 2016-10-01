@@ -51,7 +51,7 @@ static  NSString* const kCellReuseIdentifier = @"CoolId";
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"Add Product To Cart" message:cell.textLabel.text preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"Add product to cart ?" message:cell.textLabel.text preferredStyle:UIAlertControllerStyleAlert];
 
     UIAlertAction* validateAction = [UIAlertAction actionWithTitle: @"Validate" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
         //Validate Action

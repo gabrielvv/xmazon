@@ -12,6 +12,7 @@
 #import "StoreViewController.h"
 #import "JZUser.h"
 #import "MyOAuthManager.h"
+#import "GVCustomURLCache.h"
 
 @interface AppDelegate ()
 
@@ -21,6 +22,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    //Initialisation du custom cache @see http://blog.originate.com/blog/2014/02/20/afimagecache-vs-nsurlcache/
+    GVCustomURLCache *URLCache = [[GVCustomURLCache alloc] initWithMemoryCapacity:2 * 1024 * 1024
+                                                                 diskCapacity:100 * 1024 * 1024
+                                                                     diskPath:nil];
+    [NSURLCache setSharedURLCache:URLCache];
     
     UIWindow* w =[[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     

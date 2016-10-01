@@ -38,19 +38,17 @@
 
 - (IBAction)onTouchConnexion:(id)sender {
     NSLog(@"Connexion");
+    
     //Tentative de connexion avec username et password
     //Si successful -> stockage identifiants, chargement de la page d'accueil et requête pour obtenir les stores
     void (^myBlock)() = ^(){
 
         TabBarViewController* tabBar = [TabBarViewController new];
         
-//        UIWindow* w =[[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-//        [w makeKeyAndVisible];
         UINavigationController* navCtrl = [[UINavigationController alloc] initWithRootViewController:tabBar];
 
         [navCtrl setNavigationBarHidden:true];
-//        w.rootViewController = [[UINavigationController alloc] initWithRootViewController:tabBar];
-//        app.window = w;
+
         AppDelegate *app = [[UIApplication sharedApplication] delegate];
         [app.window makeKeyAndVisible];
         app.window.rootViewController = navCtrl;

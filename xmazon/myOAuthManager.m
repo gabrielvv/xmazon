@@ -15,6 +15,7 @@
 
 //- (void) getAndSetOAuthTokenForApp:(BOOL)refresh successCallback:(nullable void (^)())block;
 - (void) getAndSetOAuthTokenWithGrantType:(NSString*)type andParams:(nullable NSDictionary*) params successCallback:(void (^)(NSDictionary*))block errorCallback:(nullable void (^)())ec;
+
 - (void) execRequestWithMethod:(NSString*)method url:(NSString*)url params:(id)params auth:(NSString*)appOrUser successCallback:(nullable void ( ^ )(NSDictionary*))c errorCallback:(nullable void ( ^ )())e needAuth:(BOOL)need_auth;
 
 @end
@@ -46,30 +47,10 @@
     if(self){
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.credentials = @{@"client_id": @"7ca51914-8590-4069-af62-f657887c4dc0", @"client_secret": @"a8e2713d651840870e9d18d6cd4ebc5ebe03ca08"};
-        self.oauthTokens = [NSMutableDictionary new];
+        
         NSDictionary* oauthTokens =  [[NSUserDefaults standardUserDefaults] objectForKey:@"oauthTokens"];
-        if(oauthTokens){
-            NSDictionary* appTokens = [oauthTokens objectForKey:@"app"];
-            NSDictionary* userTokens = [oauthTokens objectForKey:@"user"];
-            if(userTokens){
-                NSMutableDictionary* newUserTokens = [NSMutableDictionary new];
-                [newUserTokens setObject:[userTokens objectForKey:@"access_token"] forKey:@"access_token"];
-                [newUserTokens setObject:[userTokens objectForKey:@"token_type"] forKey:@"token_type"];
-                [newUserTokens setObject:[userTokens objectForKey:@"expires_in"] forKey:@"expires_in"];
-                [newUserTokens setObject:[userTokens objectForKey:@"refresh_token"] forKey:@"refresh_token"];
-                [self.oauthTokens setObject:newUserTokens forKey:@"user"];
-                if([oauthTokens objectForKey:@"userDate"]) [self.oauthTokens setObject:[oauthTokens objectForKey:@"userDate"] forKey:@"userDate"];
-            }
-            if(appTokens){
-                NSMutableDictionary* newAppTokens = [NSMutableDictionary new];
-                [newAppTokens setObject:[appTokens objectForKey:@"access_token"] forKey:@"access_token"];
-                [newAppTokens setObject:[appTokens objectForKey:@"token_type"] forKey:@"token_type"];
-                [newAppTokens setObject:[appTokens objectForKey:@"expires_in"] forKey:@"expires_in"];
-                [newAppTokens setObject:[appTokens objectForKey:@"refresh_token"] forKey:@"refresh_token"];
-                [self.oauthTokens setObject:newAppTokens forKey:@"app"];
-                if([oauthTokens objectForKey:@"appDate"]) [self.oauthTokens setObject:[oauthTokens objectForKey:@"appDate"] forKey:@"appDate"];
-            }
-        }
+        self.oauthTokens = oauthTokens ? [oauthTokens mutableCopy] : [NSMutableDictionary new];
+
     }
     return self;
 }
@@ -78,8 +59,16 @@
     //Should never be called, but just here for clarity.
 }
 
+
+/********************* GETTER-SETTER AND SYNC WITH NSUSER DEFAULTS *******************************/
+
+- (void) setOauthTokensObject:(NSObject *)object forKey:(NSString*)key{
+    [self.oauthTokens setObject: object forKey:key];
+    [[NSUserDefaults standardUserDefaults] setObject:self.oauthTokens forKey:@"oauthTokens"];
+}
+
 - (void) eraseTokens{
-    self.oauthTokens = [NSMutableDictionary new];
+    [self.oauthTokens removeAllObjects];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"oauthTokens"];
 }
 
@@ -181,48 +170,51 @@
 
 /*******************************************************************************************************************/
 
-- (void) getAndSetOAuthTokenForApp:(BOOL)refresh successCallback:(nullable void (^)())block{
+- (void) getAndSetOAuthTokenForApp:(BOOL)refresh successCallback:(nullable void (^)())sc{
     NSLog(@"getAndSetOAuthTokenForApp");
     NSString* grant_type = refresh ? @"refresh_token" : @"client_credentials";
     
     [self getAndSetOAuthTokenWithGrantType:grant_type andParams:(refresh ? @{@"refresh_token": [[self.oauthTokens objectForKey:@"app"] objectForKey:@"refresh_token"]} : nil) successCallback:^(NSDictionary* response){
-        NSLog(@"My Block");
         
         // ATTENTION response IMMUTABLE
-        [self.oauthTokens setObject:response forKey:@"app"];
-        [self.oauthTokens setObject:[NSDate date] forKey:@"appDate"];
-        NSLog(@"oauthTokens app %@", [self.oauthTokens objectForKey:@"app"]);
-        [[NSUserDefaults standardUserDefaults] setObject:self.oauthTokens forKey:@"oauthTokens"];
-//        NSLog(@"\t oauthTokens %@", [self.oauthTokens objectForKey:@"app"]);
-        if(block) block();
+        NSMutableDictionary* mutableResponse = [response mutableCopy];
+        [mutableResponse setObject:[NSDate date] forKey:@"setDate"];
+        
+        [self setOauthTokensObject:mutableResponse forKey:@"app"];
+
+        if(sc) sc();
+        
     } errorCallback:nil];
     
 }
 
 /*******************************************************************************************************************/
 
-- (void) getAndSetOAuthTokenForUser:(BOOL)refresh username:(NSString*)username password:(NSString*)password successCallback:(void (^)())block errorCallback:(void (^)())ec{
+- (void) getAndSetOAuthTokenForUser:(BOOL)refresh username:(NSString*)username password:(NSString*)password successCallback:(void (^)())sc errorCallback:(void (^)())ec{
     
     NSLog(@"getAndSetOAuthForUser");
     NSString* grant_type = refresh ? @"refresh_token" : @"password";
     NSDictionary* additionalParams = (refresh ? @{@"refresh_token": [[self.oauthTokens objectForKey:@"user"] objectForKey:@"refresh_token"]} : @{@"username": username, @"password": password});
     
     [self getAndSetOAuthTokenWithGrantType:grant_type andParams:additionalParams successCallback:^(NSDictionary* response){
-        NSLog(@"My Block");
-        [self.oauthTokens setObject:response forKey:@"user"];
-        [self.oauthTokens setObject:[NSDate date] forKey:@"userDate"];
-        [[NSUserDefaults standardUserDefaults] setObject:self.oauthTokens forKey:@"oauthTokens"];
-        NSLog(@"\t oauthTokens %@", [self.oauthTokens objectForKey:@"user"]);
+        
+        NSMutableDictionary* mutableResponse = [response mutableCopy];
+        [mutableResponse setObject:[NSDate date] forKey:@"setDate"];
+        
+        [self setOauthTokensObject:mutableResponse forKey:@"user"];
+        
         JZUser *user = [JZUser sharedUser];
         [user updateProperties:@{@"uid": @"", @"password": password, @"username": username, @"lastname": @"", @"email": @"", @"firstname":@""} andStore:true];
-        block();
+        
+        sc();
+        
     } errorCallback:ec];
     
 }
 
 /*******************************************************************************************************************/
 
-- (void) authSubscribeWithMail:(NSString*)email andPassword:(NSString*)password successCallback:(nullable void ( ^ )(NSDictionary*))c errorCallback:(nullable void ( ^ )())e{
+- (void) authSubscribeWithMail:(NSString*)email andPassword:(NSString*)password successCallback:(nullable void ( ^ )(NSDictionary*))sc errorCallback:(nullable void ( ^ )())ec{
     
     NSLog(@"authSubscribeWithMail");
     NSString* url = [[NSURL URLWithString:@"auth/subscribe" relativeToURL:self.baseURL] absoluteString];
@@ -237,16 +229,15 @@
         void (^sc)() = ^(){
         
             void (^myBlock)(NSDictionary*) = ^(NSDictionary* response){
-                NSLog(@"\tmyBlock");
                 
                 JZUser *user = [JZUser sharedUser];
                 [user updateProperties:[response objectForKey:@"result"] andStore:false];
                 
-                c(response);
+                sc(response);
             };
 
             //Authorization Bearer + app token
-            [self execRequestWithMethod:@"POST" url:url params:@{@"email":email, @"password":password} auth:@"app" successCallback:myBlock errorCallback:e needAuth:true];
+            [self execRequestWithMethod:@"POST" url:url params:@{@"email":email, @"password":password} auth:@"app" successCallback:myBlock errorCallback:ec needAuth:true];
         
         };
         
@@ -258,14 +249,12 @@
         
         if(![self mustRefreshTokenFor:@"app"]){
             
-            NSLog(@"don't need_auth");
             void (^myBlock)(NSDictionary*) = ^(NSDictionary* response){
-                NSLog(@"\tmyBlock");
             
                 JZUser *user = [JZUser sharedUser];
                 [user updateProperties:[response objectForKey:@"result"] andStore:false];
                 
-                c(response);
+                sc(response);
             };
             
             //Authorization Bearer + app token
@@ -277,16 +266,15 @@
             void (^sc)() = ^(){
                 
                 void (^myBlock)(NSDictionary*) = ^(NSDictionary* response){
-                    NSLog(@"\tmyBlock");
                     
                     JZUser *user = [JZUser sharedUser];
                     [user updateProperties:[response objectForKey:@"result"] andStore:false];
                     
-                    c(response);
+                    sc(response);
                 };
                 
                 //Authorization Bearer + app token
-                [self execRequestWithMethod:@"POST" url:url params:@{@"email":email, @"password":password} auth:@"app" successCallback:myBlock errorCallback:e needAuth:true];
+                [self execRequestWithMethod:@"POST" url:url params:@{@"email":email, @"password":password} auth:@"app" successCallback:myBlock errorCallback:ec needAuth:true];
                 
             };
             
@@ -315,13 +303,14 @@
 
     if(access_token){
         if([self mustRefreshTokenFor:@"app"]){
-            NSLog(@"must refresh");
+            NSLog(@"access token & must refresh");
             void (^myBlock)() = ^(){
                 [self execRequestWithMethod:@"GET" url:url params:nil auth:@"app" successCallback:sc errorCallback:ec needAuth: true];
             };
             
             [self getAndSetOAuthTokenForApp:true successCallback:myBlock];
         }else{
+            NSLog(@"access token & !must refresh");
             //Authorization Bearer + app token
             [self execRequestWithMethod:@"GET" url:url params:nil auth:@"app" successCallback:sc errorCallback:ec needAuth: true];
         }
@@ -355,7 +344,8 @@
     if(access_token){
         
         if([self mustRefreshTokenFor:@"user"]){
-            NSLog(@"must refresh");
+            NSLog(@"access token & must refresh");
+            
             void (^myBlock)() = ^(){
                 [self execRequestWithMethod:@"GET" url:url params:@{@"category_uid":category_uid} auth:@"user" successCallback:sc errorCallback:nil needAuth: true];
             };
@@ -363,8 +353,10 @@
             [self getAndSetOAuthTokenForUser:true username:user.username password:user.password successCallback: myBlock errorCallback:nil];
             
         }else{
-        //Authorization Bearer + user token
-        [self execRequestWithMethod:@"GET" url:url params:@{@"category_uid":category_uid} auth:@"user" successCallback:sc errorCallback:nil needAuth: true];
+            NSLog(@"access token & !must refresh");
+
+            //Authorization Bearer + user token
+            [self execRequestWithMethod:@"GET" url:url params:@{@"category_uid":category_uid} auth:@"user" successCallback:sc errorCallback:nil needAuth: true];
         }
     }
 
@@ -374,19 +366,22 @@
     
     if([appOrUser isEqualToString:@"app"]){
         
-        NSInteger expires_in = (NSInteger)[[self.oauthTokens objectForKey:@"app"] objectForKey:@"expires_in"];
-        NSDate* d  = [self.oauthTokens objectForKey:@"appDate"];
-        NSTimeInterval interval = [d timeIntervalSinceNow];
-        NSLog(@"App Interval: %f \tDate: %@\tExpires_in %ld", interval, d, (long)expires_in);
-//        if(interval > expires_in) return true;
+        NSDictionary* appTokens = [self.oauthTokens objectForKey:@"app"];
+        NSInteger expires_in = [[appTokens objectForKey:@"expires_in"] intValue]; //objectForKey:@"expires_in" returns NSNumber
+        NSDate* d  = [appTokens objectForKey:@"setDate"];
+        NSInteger interval = (-1 * (NSInteger)[d timeIntervalSinceNow]);
+        NSLog(@"User Interval: %ld \tDate: %@\tExpires_in %ld", interval, d, expires_in);
+        if(interval > expires_in) return true;
         
     }
     if([appOrUser isEqualToString:@"user"]){
-        NSInteger expires_in = (NSInteger)[[self.oauthTokens objectForKey:@"user"] objectForKey:@"expires_in"];
-        NSDate* d  = [self.oauthTokens objectForKey:@"userDate"];
-        NSTimeInterval interval = [d timeIntervalSinceNow];
-        NSLog(@"User Interval: %f \tDate: %@\tExpires_in %ld", interval, d, (long)expires_in);
-//        if(interval > expires_in) return true;
+        
+        NSDictionary* userTokens = [self.oauthTokens objectForKey:@"user"];
+        NSInteger expires_in = [[userTokens objectForKey:@"expires_in"] intValue]; //objectForKey:@"expires_in" returns NSNumber
+        NSDate* d  = [userTokens objectForKey:@"setDate"];
+        NSInteger interval = (-1 * (NSInteger)[d timeIntervalSinceNow]);
+        NSLog(@"User Interval: %ld \tDate: %@\tExpires_in %ld", interval, d, expires_in);
+        if(interval > expires_in) return true;
     }
     
     return false;

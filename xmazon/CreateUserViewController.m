@@ -83,6 +83,7 @@
         
         //Temporaire: Test si l'opération a réussie -> ce n'est pas là qu'il faudrait le faire
         if([user.username isEqualToString:self.userName.text] && [user.password isEqualToString:self.passOne.text]){
+            
             TabBarViewController* tabBar = [TabBarViewController new];
             UINavigationController* navCtrl = [[UINavigationController alloc] initWithRootViewController:tabBar];
             [navCtrl setNavigationBarHidden:true];
@@ -118,25 +119,14 @@
     
     MyOAuthManager* sharedManager = [MyOAuthManager sharedManager];
     [sharedManager authSubscribeWithMail:self.userName.text andPassword:self.passOne.text successCallback:mySBlock errorCallback:myEBlock];
-    
-    
 
 }// fin onTouchCreate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
     return YES;
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

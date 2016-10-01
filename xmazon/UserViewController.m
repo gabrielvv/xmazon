@@ -20,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"User";
+    self.title = @"Account";
     JZUser* user = [JZUser sharedUser];
     self.username.text = user.username;
     self.lastname.text = user.lastname;

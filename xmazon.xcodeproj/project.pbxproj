@@ -31,6 +31,7 @@
 		767A702D1C821BA0008AD487 /* JZUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 767A702C1C821BA0008AD487 /* JZUser.m */; };
 		76EAF8071C85E07F00D7C1D2 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EAF8051C85E07F00D7C1D2 /* CategoryViewController.m */; };
 		76EAF8081C85E07F00D7C1D2 /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76EAF8061C85E07F00D7C1D2 /* CategoryViewController.xib */; };
+		76F27CBB1C89ED7B00AB59B2 /* GVCustomURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 76F27CBA1C89ED7B00AB59B2 /* GVCustomURLCache.m */; };
 		E76EB37944F8BBC6189A8259 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24FA820CFF1B1CD28142EC6E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +43,7 @@
 		762BDA271C6F423D0033F521 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		762BDA291C6F423D0033F521 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		762BDA2A1C6F423D0033F521 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		762BDA351C6F423E0033F521 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = xmazon/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		762BDA351C6F423E0033F521 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = /Users/gerardvautrin/Documents/Gabriel/ESGI/iOS/Projet/xmazon/xmazon/Assets.xcassets; sourceTree = "<absolute>"; };
 		762BDA381C6F423E0033F521 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		762BDA3A1C6F423E0033F521 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		767511E11C70A5AF003A1D91 /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
@@ -76,6 +77,8 @@
 		76EAF8041C85E07F00D7C1D2 /* CategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryViewController.h; sourceTree = "<group>"; };
 		76EAF8051C85E07F00D7C1D2 /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
 		76EAF8061C85E07F00D7C1D2 /* CategoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
+		76F27CB91C89ED7B00AB59B2 /* GVCustomURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GVCustomURLCache.h; sourceTree = "<group>"; };
+		76F27CBA1C89ED7B00AB59B2 /* GVCustomURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GVCustomURLCache.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +128,8 @@
 				767A70291C81C077008AD487 /* MyOAuthManager.m */,
 				767A702B1C821BA0008AD487 /* JZUser.h */,
 				767A702C1C821BA0008AD487 /* JZUser.m */,
+				76F27CB91C89ED7B00AB59B2 /* GVCustomURLCache.h */,
+				76F27CBA1C89ED7B00AB59B2 /* GVCustomURLCache.m */,
 			);
 			path = xmazon;
 			sourceTree = "<group>";
@@ -324,6 +329,7 @@
 				767A702D1C821BA0008AD487 /* JZUser.m in Sources */,
 				767511F31C70A625003A1D91 /* SearchViewController.m in Sources */,
 				76EAF8071C85E07F00D7C1D2 /* CategoryViewController.m in Sources */,
+				76F27CBB1C89ED7B00AB59B2 /* GVCustomURLCache.m in Sources */,
 				762BDA281C6F423D0033F521 /* main.m in Sources */,
 				7675120A1C70A988003A1D91 /* CreateUserViewController.m in Sources */,
 				767A702A1C81C077008AD487 /* MyOAuthManager.m in Sources */,

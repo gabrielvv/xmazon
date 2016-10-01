@@ -11,7 +11,6 @@
 @interface CategoryViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>{
     NSMutableArray* categories_;
     NSString* storeLabel_;
-
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *categoryTableView;

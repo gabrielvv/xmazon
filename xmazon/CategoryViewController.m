@@ -36,16 +36,11 @@ static  NSString* const kCellReuseIdentifier = @"CoolId";
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:kCellReuseIdentifier];
     if(!cell){
         cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:kCellReuseIdentifier];
+    }
     
-        //tester UITableViewCellStyleValue1 et autres styles
-    }/*else{
-      NSLog(@"REUSE Cell");
-      }*/
     NSDictionary* cat = [categories_ objectAtIndex:indexPath.row];
-    //    cell.textLabel.text = [NSString stringWithFormat:@"Row %lu", indexPath.row];
     cell.textLabel.text = [cat objectForKey:@"name"];
-    
-    //    cell.detailTextLabel.text = @"super trop bien"; //pour UITableViewCellStyleSubtitle/Value1...
+
     return cell;
 }
 
@@ -66,7 +61,7 @@ static  NSString* const kCellReuseIdentifier = @"CoolId";
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     productCtrl.catLabel = cell.textLabel.text;
     productCtrl.storeLabel = self.storeLabel;
-    NSLog(@"didSelectRow %@ - %@", productCtrl.catLabel, productCtrl.storeLabel);
+
     [[MyOAuthManager sharedManager] getProductListForCat:[category objectForKey:@"uid"] search:nil limit:nil offset:nil successCallback:sc];
     
     [self.navigationController pushViewController:productCtrl animated:YES];

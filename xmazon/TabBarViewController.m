@@ -24,8 +24,7 @@
     /**********************************************************************************************************************************/
     
     UINavigationController* storeNavCtrl = [[UINavigationController alloc] initWithRootViewController:[StoreViewController new]];
-    storeNavCtrl.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostViewed tag: 1];
-    
+    storeNavCtrl.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Store" image:[UIImage imageNamed:@"sale"] tag: 1];
     /*******************************************/
     
     UINavigationController* searchNavCtrl = [[UINavigationController alloc] initWithRootViewController:[SearchViewController new]];
@@ -34,12 +33,13 @@
     /*****************************************/
     
     UINavigationController* cartNavCtrl = [[UINavigationController alloc] initWithRootViewController:[CartViewController new]];
-    cartNavCtrl.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemDownloads tag: 3];
+    cartNavCtrl.tabBarItem = [[UITabBarItem alloc] initWithTitle:@" Cart" image:[UIImage imageNamed:@"shopping_cart"] tag: 3];
+//    cartNavCtrl.tabBarItem.titlePositionAdjustment = ??
     
     /*****************************************/
     
     UINavigationController* userNavCtrl = [[UINavigationController alloc] initWithRootViewController:[UserViewController new]];
-    userNavCtrl.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts tag: 4];
+    userNavCtrl.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Account" image:[UIImage imageNamed:@"user_male_circle_filled"] tag: 4];
     
     /*****************************************/
     
